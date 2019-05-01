@@ -6,6 +6,7 @@ public class Logging extends JavaPlugin {
     @Override
     public void onEnable() {
         System.out.println("Logging enabled.");
+        getServer().getPluginManager().registerEvents(new Cutter(), this);
     }
 
     @Override
