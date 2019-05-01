@@ -1,0 +1,3 @@
+name: Logging
+version: 0.0.1
+main: work.mojamoja.logging.Logging
