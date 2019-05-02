@@ -1,4 +1,4 @@
 name: Logging
-version: 0.0.1
+version: 1.0.0
 main: work.mojamoja.logging.Logging
 api-version: '1.13'
