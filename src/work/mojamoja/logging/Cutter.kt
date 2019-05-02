@@ -9,6 +9,8 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.block.BlockBreakEvent
 import org.bukkit.inventory.ItemStack
+import org.bukkit.inventory.meta.Damageable
+import org.bukkit.inventory.meta.ItemMeta
 import org.bukkit.util.Vector
 
 class Cutter: Listener {
@@ -46,13 +48,21 @@ class Cutter: Listener {
         val tool = player.inventory.itemInMainHand
 
         block.breakNaturally(tool)
-        tool.durability = (tool.durability + 1).toShort()
 
-        // 武器の耐久値が0になったとき
-        if (tool.durability == tool.type.maxDurability) {
-            // 武器の破壊を再現
-            tool.amount = 0
-            player.playSound(player.location, Sound.ENTITY_ITEM_BREAK, 1f, 1f)
+        // 耐久値の概念が存在するツールだった場合にダメージを加算する
+        val damageable = tool.itemMeta as? Damageable
+        if (damageable != null) {
+            damageable.damage += 1
+
+            // 武器の耐久値が0になったとき
+            if (damageable.damage == tool.type.maxDurability.toInt()) {
+                // 武器の破壊を再現
+                tool.amount = 0
+                player.playSound(player.location, Sound.ENTITY_ITEM_BREAK, 1f, 1f)
+            } else {
+                val itemMeta = damageable as ItemMeta
+                tool.itemMeta = itemMeta
+            }
         }
     }
 
