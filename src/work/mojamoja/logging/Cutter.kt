@@ -2,15 +2,11 @@ package work.mojamoja.logging
 
 import org.bukkit.Bukkit
 import org.bukkit.Material
-import org.bukkit.Sound
 import org.bukkit.block.Block
-import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.block.BlockBreakEvent
 import org.bukkit.inventory.ItemStack
-import org.bukkit.inventory.meta.Damageable
-import org.bukkit.inventory.meta.ItemMeta
 import org.bukkit.util.Vector
 
 class Cutter: Listener {
@@ -25,7 +21,7 @@ class Cutter: Listener {
         }
 
         e.isCancelled = true
-        cutting(player, block)
+        breakWithMainHand(player, block)
 
         // 起点のブロックから周囲17ブロック(起点を中心とした3x3の立方体から起点以下のブロックを除外)を探索し、対象のブロックであった場合にBlockBreakEventを呼び出す
         // 隣接していないブロック（斜め位置）も破壊されるが。アカシアの木などの木こりに必要なので仕様とする
@@ -39,29 +35,6 @@ class Cutter: Listener {
                         Bukkit.getServer().pluginManager.callEvent(blockBreakEvent)
                     }
                 }
-            }
-        }
-    }
-
-    // プレイヤーがメインハンドのツールでブロックを破壊したことを再現するメソッド
-    private fun cutting(player: Player, block: Block) {
-        val tool = player.inventory.itemInMainHand
-
-        block.breakNaturally(tool)
-
-        // 耐久値の概念が存在するツールだった場合にダメージを加算する
-        val damageable = tool.itemMeta as? Damageable
-        if (damageable != null) {
-            damageable.damage += 1
-
-            // 武器の耐久値が0になったとき
-            if (damageable.damage == tool.type.maxDurability.toInt()) {
-                // 武器の破壊を再現
-                tool.amount = 0
-                player.playSound(player.location, Sound.ENTITY_ITEM_BREAK, 1f, 1f)
-            } else {
-                val itemMeta = damageable as ItemMeta
-                tool.itemMeta = itemMeta
             }
         }
     }
