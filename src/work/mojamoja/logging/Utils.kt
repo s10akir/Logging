@@ -11,6 +11,12 @@ import org.bukkit.inventory.meta.ItemMeta
 import org.bukkit.util.Vector
 import kotlin.random.Random
 
+/**
+ * プレイヤーがメインハンドに持っているツールでの破壊を再現する。
+ *
+ * @param player ブロック破壊を実行するPlayerオブジェクト
+ * @param block 破壊対象のBlockオブジェクト
+ */
 fun breakWithMainHand(player: Player, block: Block) {
     val tool = player.inventory.itemInMainHand
 
@@ -37,6 +43,12 @@ fun breakWithMainHand(player: Player, block: Block) {
     }
 }
 
+/**
+ * 与えられたブロックと同じブロックで構成される塊を再帰的に探索し、引数で与えられたArrayListオブジェクトへ追加する。
+ *
+ * @param block 起点となるBlockオブジェクト
+ * @param lump Blockオブジェクトを格納するArrayListオブジェクト
+ */
 fun parseLump(block: Block, lump: ArrayList<Block>) {
     // すでに探索済みのブロックであった場合何もせずにリターン
     if (lump.indexOf(block) != -1) return
@@ -56,6 +68,13 @@ fun parseLump(block: Block, lump: ArrayList<Block>) {
     }
 }
 
+/**
+ * 与えられたブロックが原木であるかを判定する。
+ * ただし、「皮を剥いだ原木」はfalseを返す
+ *
+ * @param block 判定するBlockオブジェクト
+ * @return 原木か否か
+ */
 fun isLog(block: Block): Boolean {
     return  block.type == Material.OAK_LOG ||
             block.type == Material.ACACIA_LOG ||
@@ -65,6 +84,12 @@ fun isLog(block: Block): Boolean {
             block.type == Material.SPRUCE_LOG
 }
 
+/**
+ * 与えられたアイテムが斧であるかを判定する。
+ *
+ * @param tool 判定するItemStackオブジェクト
+ * @return 斧か否か
+ */
 fun isAxe(tool: ItemStack): Boolean {
     return  tool.type == Material.WOODEN_AXE ||
             tool.type == Material.STONE_AXE ||
