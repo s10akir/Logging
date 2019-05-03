@@ -20,7 +20,7 @@ fun breakWithMainHand(player: Player, block: Block) {
     val damageable = tool.itemMeta as? Damageable
     if (damageable != null) {
         // Unbreakingが付いていれば確率でダメージを加算する
-        val durabilityLevel = durabilityLevel(tool)
+        val durabilityLevel = tool.getEnchantmentLevel(Enchantment.DURABILITY)
         if (Random.nextInt(durabilityLevel + 1) == 0) {
             damageable.damage += 1
         }
@@ -70,8 +70,4 @@ fun isAxe(tool: ItemStack): Boolean {
             tool.type == Material.STONE_AXE ||
             tool.type == Material.IRON_AXE ||
             tool.type == Material.DIAMOND_AXE
-}
-
-fun durabilityLevel(tool: ItemStack): Int {
-    return tool.getEnchantmentLevel(Enchantment.DURABILITY)
 }
