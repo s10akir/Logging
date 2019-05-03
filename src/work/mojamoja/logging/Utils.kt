@@ -3,11 +3,13 @@ package work.mojamoja.logging
 import org.bukkit.Material
 import org.bukkit.Sound
 import org.bukkit.block.Block
+import org.bukkit.enchantments.Enchantment
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.Damageable
 import org.bukkit.inventory.meta.ItemMeta
 import org.bukkit.util.Vector
+import kotlin.random.Random
 
 fun breakWithMainHand(player: Player, block: Block) {
     val tool = player.inventory.itemInMainHand
@@ -17,7 +19,11 @@ fun breakWithMainHand(player: Player, block: Block) {
     // 耐久値の概念が存在するツールだった場合にダメージを加算する
     val damageable = tool.itemMeta as? Damageable
     if (damageable != null) {
-        damageable.damage += 1
+        // Unbreakingが付いていれば確率でダメージを加算する
+        val durabilityLevel = durabilityLevel(tool)
+        if (Random.nextInt(durabilityLevel + 1) == 0) {
+            damageable.damage += 1
+        }
 
         // 武器の耐久値が0になったとき
         if (damageable.damage == tool.type.maxDurability.toInt()) {
@@ -64,4 +70,8 @@ fun isAxe(tool: ItemStack): Boolean {
             tool.type == Material.STONE_AXE ||
             tool.type == Material.IRON_AXE ||
             tool.type == Material.DIAMOND_AXE
+}
+
+fun durabilityLevel(tool: ItemStack): Int {
+    return tool.getEnchantmentLevel(Enchantment.DURABILITY)
 }
