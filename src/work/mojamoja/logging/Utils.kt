@@ -37,11 +37,11 @@ fun breakWithMainHand(player: Player, block: Block) {
     }
 }
 
-fun parseLump(block: Block, tree: ArrayList<Block>) {
+fun parseLump(block: Block, lump: ArrayList<Block>) {
     // すでに探索済みのブロックであった場合何もせずにリターン
-    if (tree.indexOf(block) != -1) return
+    if (lump.indexOf(block) != -1) return
 
-    tree.add(block)
+    lump.add(block)
 
     for (x in -1..1) {
         for (y in 0..1) {
@@ -49,7 +49,7 @@ fun parseLump(block: Block, tree: ArrayList<Block>) {
                 val nextBlock = block.location.add(Vector(x, y, z)).block
 
                 if (isLog(nextBlock)) {
-                    parseLump(nextBlock, tree)
+                    parseLump(nextBlock, lump)
                 }
             }
         }
