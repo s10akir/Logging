@@ -37,7 +37,7 @@ fun breakWithMainHand(player: Player, block: Block) {
     }
 }
 
-fun treeParser(block: Block, tree: ArrayList<Block>) {
+fun parseLump(block: Block, tree: ArrayList<Block>) {
     // すでに探索済みのブロックであった場合何もせずにリターン
     if (tree.indexOf(block) != -1) return
 
@@ -49,7 +49,7 @@ fun treeParser(block: Block, tree: ArrayList<Block>) {
                 val nextBlock = block.location.add(Vector(x, y, z)).block
 
                 if (isLog(nextBlock)) {
-                    treeParser(nextBlock, tree)
+                    parseLump(nextBlock, tree)
                 }
             }
         }

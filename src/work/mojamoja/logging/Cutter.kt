@@ -21,7 +21,7 @@ class Cutter: Listener {
         val durability = tool.type.maxDurability - damageable.damage
         val tree: ArrayList<Block> = ArrayList()
 
-        treeParser(block, tree)
+        parseLump(block, tree)
 
         // 斧の耐久値が木を切り倒すのに足りなかった場合はアーリーリターン
         if (durability < tree.size) return
