@@ -1,5 +1,6 @@
 package work.mojamoja.logging
 
+import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.Sound
 import org.bukkit.block.Block
@@ -85,6 +86,16 @@ fun isLog(block: Block): Boolean {
 }
 
 /**
+ * 与えられたアイテムの種類での一括破壊を行っていいか判定する。
+ *
+ * @param tool 判定するアイテム
+ * @return 一括破壊の可否
+ */
+fun isEligible(tool: ItemStack): Boolean {
+    return isAxe(tool) && isActive(tool)
+}
+
+/**
  * 与えられたアイテムが斧であるかを判定する。
  *
  * @param tool 判定するItemStackオブジェクト
@@ -95,4 +106,32 @@ fun isAxe(tool: ItemStack): Boolean {
             tool.type == Material.STONE_AXE ||
             tool.type == Material.IRON_AXE ||
             tool.type == Material.DIAMOND_AXE
+}
+
+/**
+ * 与えられた斧での一括破壊が有効化されているか、configから判定する。
+ *
+ * @param tool 判定する斧
+ * @return 有効化されているか否か
+ */
+fun isActive(tool: ItemStack): Boolean {
+    val logging = Bukkit.getPluginManager().getPlugin("Logging") as Logging
+
+    when (tool.type) {
+        Material.WOODEN_PICKAXE -> {
+            return logging.config.getBoolean("wooden")
+        }
+        Material.STONE_AXE -> {
+            return logging.config.getBoolean("stone")
+        }
+        Material.IRON_AXE -> {
+            return logging.config.getBoolean("iron")
+        }
+        Material.DIAMOND_AXE -> {
+            return logging.config.getBoolean("diamond")
+        }
+        else -> {
+            return false
+        }
+    }
 }

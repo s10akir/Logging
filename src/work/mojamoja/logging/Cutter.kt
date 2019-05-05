@@ -13,7 +13,7 @@ class Cutter: Listener {
         val tool = player.inventory.itemInMainHand
 
         // 対象のブロック、ツールでなかった場合 もしくはスニーク中の場合はアーリーリターン
-        if (!(isLog(block) && isAxe(tool)) || player.isSneaking) return
+        if (!(isLog(block) && isEligible(tool)) || player.isSneaking) return
 
 
         // この時点で斧であることが保証されているのでアンセーフキャスト

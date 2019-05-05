@@ -6,6 +6,9 @@ class Logging: JavaPlugin() {
     override fun onEnable() {
         logger.info("Logging enabled.")
         server.pluginManager.registerEvents(Cutter(), this)
+
+        // config.yml を読み込む
+        this.saveDefaultConfig()
     }
 
     override fun onDisable() {
