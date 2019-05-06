@@ -7,7 +7,7 @@ class Logging: JavaPlugin() {
         logger.info("Logging enabled.")
         server.pluginManager.registerEvents(Cutter(), this)
 
-        // config.yml を読み込む
+        // config.ymlが存在しない場合、デフォルトのconfig.ymlをplugins/Logging以下に作成する。
         this.saveDefaultConfig()
     }
 
