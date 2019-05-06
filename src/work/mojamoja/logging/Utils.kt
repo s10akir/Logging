@@ -118,7 +118,7 @@ fun isActive(tool: ItemStack): Boolean {
     val logging = Bukkit.getPluginManager().getPlugin("Logging") as Logging
 
     when (tool.type) {
-        Material.WOODEN_PICKAXE -> {
+        Material.WOODEN_AXE -> {
             return logging.config.getBoolean("wooden")
         }
         Material.STONE_AXE -> {
