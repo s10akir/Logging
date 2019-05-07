@@ -1,9 +1,9 @@
 package work.mojamoja.logging
 
-import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.Sound
 import org.bukkit.block.Block
+import org.bukkit.configuration.file.FileConfiguration
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
@@ -86,13 +86,14 @@ fun isLog(block: Block): Boolean {
 }
 
 /**
- * 与えられたアイテムの種類での一括破壊を行っていいか判定する。
+ * 与えられたアイテムの種類での一括破壊を行っていいか、config.ymlを基に判定する。
  *
  * @param tool 判定するアイテム
+ * @param config FileConfiguration
  * @return 一括破壊の可否
  */
-fun isEligible(tool: ItemStack): Boolean {
-    return isAxe(tool) && isActive(tool)
+fun isEligible(tool: ItemStack, config: FileConfiguration): Boolean {
+    return isAxe(tool) && isActive(tool, config)
 }
 
 /**
@@ -109,26 +110,25 @@ fun isAxe(tool: ItemStack): Boolean {
 }
 
 /**
- * 与えられた斧での一括破壊が有効化されているか、configから判定する。
+ * 与えられた斧での一括破壊が有効化されているか、config.ymlを基に判定する。
  *
  * @param tool 判定する斧
+ * @param config FileConfiguration
  * @return 有効化されているか否か
  */
-fun isActive(tool: ItemStack): Boolean {
-    val logging = Bukkit.getPluginManager().getPlugin("Logging") as Logging
-
+fun isActive(tool: ItemStack, config: FileConfiguration): Boolean {
     when (tool.type) {
         Material.WOODEN_AXE -> {
-            return logging.config.getBoolean("wooden")
+            return config.getBoolean("wooden")
         }
         Material.STONE_AXE -> {
-            return logging.config.getBoolean("stone")
+            return config.getBoolean("stone")
         }
         Material.IRON_AXE -> {
-            return logging.config.getBoolean("iron")
+            return config.getBoolean("iron")
         }
         Material.DIAMOND_AXE -> {
-            return logging.config.getBoolean("diamond")
+            return config.getBoolean("diamond")
         }
         else -> {
             return false
