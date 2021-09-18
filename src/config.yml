@@ -2,3 +2,4 @@ wooden: true
 stone: true
 iron: true
 diamond: true
+netherite: true
