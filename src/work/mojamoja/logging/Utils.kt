@@ -106,7 +106,8 @@ fun isAxe(tool: ItemStack): Boolean {
     return  tool.type == Material.WOODEN_AXE ||
             tool.type == Material.STONE_AXE ||
             tool.type == Material.IRON_AXE ||
-            tool.type == Material.DIAMOND_AXE
+            tool.type == Material.DIAMOND_AXE ||
+            tool.type == Material.NETHERITE_AXE
 }
 
 /**
@@ -129,6 +130,9 @@ fun isActive(tool: ItemStack, config: FileConfiguration): Boolean {
         }
         Material.DIAMOND_AXE -> {
             return config.getBoolean("diamond")
+        }
+        Material.NETHERITE_AXE -> {
+            return config.getBoolean("netherite")
         }
         else -> {
             return false
